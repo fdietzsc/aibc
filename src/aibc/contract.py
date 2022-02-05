@@ -1,3 +1,4 @@
+# pylint: disable=missing-module-docstring
 from typing import List
 
 from aibc import async_make_request

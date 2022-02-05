@@ -1,3 +1,4 @@
+# pylint: disable=missing-module-docstring
 from typing import List
 from typing import Union
 

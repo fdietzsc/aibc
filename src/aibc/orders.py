@@ -1,3 +1,4 @@
+# pylint: disable=missing-module-docstring
 from typing import Union
 
 from aibc import async_make_request
@@ -54,12 +55,12 @@ async def place_order(account_id: str, order: dict) -> dict:
                                     json_payload=order)
 
 
-async def place_bracket_order(account_id: str, orders: dict) -> dict:
+async def place_bracket_order(account_id: str, order_bracket: dict) -> dict:
     """Places multiple orders at once.
 
     Args:
         account_id (str): The account you want the orders placed on.
-        orders (dict): The orders payload.
+        order_bracket (dict): The orders payload.
 
     Returns:
         dict: A `Reply` resource or a `Order` resource.
@@ -96,7 +97,7 @@ async def place_bracket_order(account_id: str, orders: dict) -> dict:
         )
     """
     return await async_make_request(method='post', endpoint=f'/api/iserver/account/{account_id}/orders',
-                                    json_payload=orders)
+                                    json_payload=order_bracket)
 
 
 async def modify_order(account_id: str, order_id: str, order: dict) -> dict:

@@ -1,3 +1,4 @@
+# pylint: disable=missing-module-docstring
 from typing import Union
 from typing import List
 from enum import Enum
@@ -5,19 +6,43 @@ from enum import Enum
 from aibc import async_make_request
 
 
-async def portfolio_get(account_id: str, endpoint: str, params: dict = None):
+async def portfolio_get(account_id: str, endpoint: str, params: dict = None) -> Union[list, dict]:
+    """Generalized get method for portfolio actions
+
+    Args:
+        account_id (str): Account ID
+        endpoint (str): URL endpoint to query
+        params (dict): Additional parameters to be added to the request
+
+    Returns:
+        Union(list, dict): Response from IB
+
+    """
     await async_make_request(method='get', endpoint='/api/portfolio/accounts')
     return await async_make_request(method='get', endpoint=f'/api/portfolio/{account_id}/{endpoint}', params=params)
 
 
-async def portfolio_post(endpoint: str, account_id: str = None, params: dict = None, json_payload: dict = None):
-    if account_id is None:
-        ep = f'/api/portfolio/{endpoint}'
-    else:
-        ep = f'/api/portfolio/{account_id}/{endpoint}'
+async def portfolio_post(endpoint: str, account_id: str = None, params: dict = None,
+                         json_payload: dict = None) -> Union[list, dict]:
+    """Generalized post method for portfolio actions
 
+    Args:
+        endpoint (str): URL endpoint to query
+        account_id (str): Account ID
+        params (dict): Additional parameters to be added to the request
+        json_payload (dict): Additional payload to be added to the request
+
+    Returns:
+        Union(list, dict): Response from IB
+
+    """
     await async_make_request(method='get', endpoint='/api/portfolio/accounts')
-    return await async_make_request(method='post', endpoint=ep, params=params, json_payload=json_payload)
+    if account_id is None:
+        return await async_make_request(method='post', endpoint=f'/api/portfolio/{endpoint}', params=params,
+                                        json_payload=json_payload)
+
+    return await async_make_request(method='post', endpoint=f'/api/portfolio/{account_id}/{endpoint}',
+                                    params=params, json_payload=json_payload)
 
 
 async def accounts() -> List[dict]:
